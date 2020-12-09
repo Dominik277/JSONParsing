@@ -3,12 +3,10 @@ package json.parsin.app;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -37,9 +35,13 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject contact = userDetail.getJSONObject("contact");
                 mobileNumbers.add(contact.getString("mobile"));
             }
-        }catch (Exception e){
+        }catch (JSONException e){
             e.printStackTrace();
         }
+
+        CustomAdapter customAdapter = new CustomAdapter(MainActivity.this,personNames,emailIds,mobileNumbers);
+        recyclerView.setAdapter(customAdapter);
+
 
     }
 

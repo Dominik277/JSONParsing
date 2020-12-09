@@ -1,9 +1,11 @@
 package json.parsin.app;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,17 +30,28 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     @NonNull
     @Override
     public CustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+       View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout,parent,false);
+       MyViewHolder vh = new MyViewHolder(v);
+       return vh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter.MyViewHolder holder, int position) {
+        holder.name.setText(personNames.get(position));
+        holder.email.setText(emailIds.get(position));
+        holder.mobileNo.setText(mobileNumbers.get(position));
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,personNames.get(position),Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return personNames.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
