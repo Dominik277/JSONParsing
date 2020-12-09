@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -24,6 +27,19 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        try {
+            JSONObject obj = new JSONObject(loadJSONFromAsset());
+            JSONArray userArray = obj.getJSONArray("users");
+            for (int i=0; i<userArray.length(); i++){
+                JSONObject userDetail = userArray.getJSONObject(i);
+                personNames.add(userDetail.getString("name"));
+                emailIds.add(userDetail.getString("email"));
+                JSONObject contact = userDetail.getJSONObject("contact");
+                mobileNumbers.add(contact.getString("mobile"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
