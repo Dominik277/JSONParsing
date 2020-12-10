@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
 
+    //ovdje smo samo stvorili imena varijabli koji ce biti tipa ArrayList u koji ce se
+    //spremati stringovi.Ove varijable su za sada samo inicijalizirane u njih jos nista
+    //nismo pohranili
     ArrayList<String> personNames;
     ArrayList<String> emailIds;
     ArrayList<String> mobileNumbers;
@@ -54,11 +57,20 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
+        //ovdje smo isto samo inicijalizirali varijable koje ce biti tipa TextView,
+        //nismo u njih jos nista pohranili.Posto su tipa TextView odma vidimo da cemo
+        //s pomocu ovih varijabli se odnositi prema atributima u XML-u koji se tako zovu
         TextView name,email,mobileNo;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
+
+            //ovdje isto kao i MainActivity.Pomocu metode findViewById() nađemo atribut iz
+            //XML-a koji smo naveli kao argument metode, metoda ode u XML, kao rezultat svoje
+            //operacije vrati taj atribut iz XML-a i pohrani ga u varijablu i svaki sljedeci
+            //put kad se zelimo odnositi prema tom atributu iz XML-a, napisemo ime varijable
+            //u kojem je on pohranjen
             name = itemView.findViewById(R.id.name);
             email = itemView.findViewById(R.id.email);
             mobileNo = itemView.findViewById(R.id.mobileNo);
