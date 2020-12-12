@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         //nakon sto metoda onPreExecute() obavi svoj posao.Operacije u ovoj metodi
         //ne bi smjele dodirivati nikakve activitie i fragmente od main thread-a.
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Void doInBackground(Void... arg0) {
             return null;
         }
 
