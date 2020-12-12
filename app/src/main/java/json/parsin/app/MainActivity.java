@@ -3,7 +3,11 @@ package json.parsin.app;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -50,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
     //sadrzi neke metode koje moramo implementirati
     //AsyncTask je wrapper class koja omogucuje obavljanje teskog posla u pozadini
     //kako bi olaksali rad UI threada tako sto automatski micemo taj teski posao
-    //iz UI threada.AsyncTask zapocinje na UI threadu i gura sve teske zadatke
+    //iz UI threada te sluzi za updatanje UI threada.AsyncTask zapocinje na UI
+    // threadu i gura sve teske zadatke
     //na asyncTask klasu koja zapocinje backgroundThread.Kada background thread
     //obavi svoj zadatak on rjesenje salje u UI thread
     private class GetContacts extends AsyncTask<Void,Void,Void>{
@@ -74,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            Toast.makeText(MainActivity.this,"JSON data is downloading"
+                    ,Toast.LENGTH_LONG).show();
         }
 
 
@@ -82,8 +89,12 @@ public class MainActivity extends AppCompatActivity {
         //doInBackground() svoje podatke salje ovoj metodi kao parametar i
         // onda ova metoda te podatke prosljeđuje UI thread-u
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            ListAdapter adapter = new SimpleAdapter(MainActivity.this,contactList,
+                    R.layout.list_item, new String[]{"email","mobile"},
+                    new int[]{R.id.email,R.id.mobile});
+            lv.setAdapter(adapter);
         }
 
 
