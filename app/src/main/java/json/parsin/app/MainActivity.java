@@ -10,6 +10,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -99,10 +100,23 @@ public class MainActivity extends AppCompatActivity {
 
                         HashMap<String,String> contact = new HashMap<>();
 
+                        contact.put("id",id);
+                        contact.put("name",name);
+                        contact.put("email",email);
+                        contact.put("mobile",mobile);
 
+                        contactList.add(contact);
                     }
-                }catch (){
-
+                }catch (final JSONException e){
+                        Log.e(TAG,"JSON parsing eror: " + e.getMessage());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(),
+                                        "JSON parsing eror: " + e.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        });
                 }
             }
 
