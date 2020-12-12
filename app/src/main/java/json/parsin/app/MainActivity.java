@@ -118,6 +118,16 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                 }
+            }else {
+                Log.e(TAG,"Couldn't get JSON from server.");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "Couldn't get JSON from server.Check LogCat for possible errors!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
             }
 
             return null;
