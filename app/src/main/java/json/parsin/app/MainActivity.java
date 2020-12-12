@@ -48,20 +48,39 @@ public class MainActivity extends AppCompatActivity {
 
     //ovo je klasa koja nasljeđuje AsyncTask klasu koja je abstrakta te u sebi
     //sadrzi neke metode koje moramo implementirati
+    //AsyncTask je wrapper class koja omogucuje obavljanje teskog posla u pozadini
+    //kako bi olaksali rad UI threada tako sto automatski micemo taj teski posao
+    //iz UI threada.AsyncTask zapocinje na UI threadu i gura sve teske zadatke
+    //na asyncTask klasu koja zapocinje backgroundThread.Kada background thread
+    //obavi svoj zadatak on rjesenje salje u UI thread
     private class GetContacts extends AsyncTask<Void,Void,Void>{
 
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
+        //ovo je zapravo jedina metoda koju je obavezno implementirati
+        //sve ostale su bonus.U ovoj metodi navodimo kod u kojem su sadrzani
+        //svi oni "teski" zadaci koji trebaju biti obavljeni u backgroundu.
+        //Zadatak kojem bi trebalo dosta vremena da se izvrsi se stavlja u ovu
+        //metodu.Ova metoda radi u background Thred-u.Ova metoda se poziva odmah
+        //nakon sto metoda onPreExecute() obavi svoj posao.Operacije u ovoj metodi
+        //ne bi smjele dodirivati nikakve activitie i fragmente od main thread-a.
         @Override
         protected Void doInBackground(Void... voids) {
             return null;
         }
 
+        //ovo je prva metoda koja se poziva kada je AsyncTask pozvan.Nakon ove
+        //metode se izvodi doInBackground.Ova metoda se izvodi na UI thread-u i
+        //najcesce se koristi za instanciranje UI elemenata,kao npr pokazivanje
+        //spinnera dok se obavlja background task
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
+
+        //kada je background task gotov, onda trebamo rezultate te operacije
+        //poslati nazad u UI thread.Ova metoda radi u UI thredu i metoda
+        //doInBackground() svoje podatke salje ovoj metodi kao parametar i
+        // onda ova metoda te podatke prosljeđuje UI thread-u
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
