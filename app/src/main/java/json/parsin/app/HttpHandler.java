@@ -14,15 +14,24 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class HttpHandler {
 
+    //varijabla TAG tipa string koju cemo koristiti u Log() metodi kada joj zelimo predati
+    //prvi parametar, a taj prvi parametar nam predstavlja trenutnu klasu unutar koje se nalazimo
     private static final String TAG = HttpHandler.class.getSimpleName();
 
+    //default konstruktor ove klase koji nam govori da kada budemo konstruirali objekt
+    //da ce on biti prazan jer unutar zadgrada konstruktora nismo naveli ni jedan parametar
     public HttpHandler(){
 
     }
 
     public String makeServiceCall(String reqUrl){
+
+        //ovdje smo samo napravili varijablu response tipa String u koju smo pohranili null vrijednost
         String response = null;
 
+        //nakon toga dolazimo do try/catch bloka, u try bloku navodimo sav onaj kod koji mislimo da
+        //je dobar, odnosno da ne baca exception, a u slucaju da taj kod unutar try bloka nije dobar
+        //onda se poziva i izvrsava onaj kod koji je unutar catch bloka
         try {
             URL url = new URL(reqUrl);
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
@@ -45,8 +54,14 @@ public class HttpHandler {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
 
+        //ovdje smo samo napravili lokalnu varijablu line tipa String koja je prazna
+        //ova varijable je lokalna jer se nalazi unutar metode i vidljiva je samo unutar
+        //metode te ce i koristiti samo unutar metode
         String line;
 
+        //nakon toga dolazimo do try/catch bloka, u try bloku navodimo sav onaj kod koji mislimo da
+        //je dobar, odnosno da ne baca exception, a u slucaju da taj kod unutar try bloka nije dobar
+        //onda se poziva i izvrsava onaj kod koji je unutar catch bloka
         try {
             while ((line = reader.readLine())!= null){
                 sb.append(line).append("\n");
