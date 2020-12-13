@@ -92,8 +92,24 @@ public class HttpHandler {
         return response;
     }
 
+
+    //ovo je custom metoda koja kao parametar prima varijablu is tipa InputStream
     private String convertStreamToString(InputStream is){
+
+        //BufferedReader --> objekt ove klase sluzi kako bi citao podatke koji su u Stream-u,
+        //                   ali koji su u Stremu i tipa su character, on ih rasclanjuje i cita
+        //                   ova metoda ubrzava performase citanja podataka
+        //InputStramReader --> objekt ove klase je most između Stream-a koji u sebi imaju byte
+        //                     tip podataka i Stream-a koji u sebi ima character podatke
+        //                     cita byte-ove i pretvara ih u characters kako bi svi podaci bili
+        //                     istog tipa
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+        //ovdje smo na desnoj strani stvorili objekt tipa StringBuilder u memoriji racunala
+        //koji je prazan jer konstruktor nema nikakvih parametara, a s lijeve strane smo samo
+        //naveli ime preko kojeg cemo ga referencirati odnosno pozivati ga
+        //StringBuilder --> objekt ove klase se koristi za stvaranje promjenjive(modifiable)
+        //                  stringove
         StringBuilder sb = new StringBuilder();
 
         //ovdje smo samo napravili lokalnu varijablu line tipa String koja je prazna
