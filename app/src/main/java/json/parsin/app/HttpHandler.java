@@ -24,6 +24,7 @@ public class HttpHandler {
 
     }
 
+    //ovo je samo nasa custom metoda koja kao parametar prima String varijablu reqUrl
     public String makeServiceCall(String reqUrl){
 
         //ovdje smo samo napravili varijablu response tipa String u koju smo pohranili null vrijednost
@@ -33,11 +34,38 @@ public class HttpHandler {
         //je dobar, odnosno da ne baca exception, a u slucaju da taj kod unutar try bloka nije dobar
         //onda se poziva i izvrsava onaj kod koji je unutar catch bloka
         try {
+
+            //URL klasa nam koristi kako bi njenom objektu predali neki link za neku www lokaciju
+            //metodi makeServiceCall se kao parametar predaje taj link i onda se taj link prenosi
+            //u konstruktor za pravljenje URL objekta.Znaci taj objekt od klase URL sada u sebi
+            //sadrzi link za neku Web stranicu
             URL url = new URL(reqUrl);
+
+            //ovom linijom koda smo omogucili HTTP konekciju sa internetom s pomocu openConnection() metode
+            //znaci u varijablu conn tipa HttpsUrlConnection smo spremili objekt url i openConnection()
+            //metodu koji su nam omogucili konekciju s internetom
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+
+            //ova metoda postavlja naredbu zahtjeva koja ce biti predana HTTP serveru
+            //ova metoda se mora pozvati prije nego sto je konekcija ostvarena
             conn.setRequestMethod("GET");
+
+            //Za pocetak da definiramo sta je Stream, Stream je slijed podataka koji se salju u neko bloku
+            //aplikacija koristi inputStream kako bi iscitavala podatke s neke određene lokacije na internetu
+            //jedan item po jedan, InputStream klase sluze samo za citanje podataka s neke lokacije, za nista drugo
+            //ukratko, InputStram nam predstavlja tok podataka od nekog izvora podataka
+            //BufferedinputStram -->klasa koja omogucava citanje podataka koji su u stream-u, koristi "buffer mechanism"
+            //                      kako bi ubrzala performanse,napravili smo objekt u memoriji racunala koji omogucuje
+            //                      citanje podataka koji se nalaze unutar Stream-a a referencirati cemo ga pomocu imena in
+            //                      argument cuva za kasniju uporabu
+            //getInputStream() --> ova metoda vraca Stream s podacima koji dolaze s neke lokacije prema aplikaciji
             InputStream in = new BufferedInputStream(conn.getInputStream());
+
+            //convertStreamToString() --> ovo je custom metoda koju smo naveli ispod ove metode
+            //in --> je parametar metode convertStreamToString i to je varijabla tipa InputStream
             response = convertStreamToString(in);
+
+            //
         }catch (MalformedURLException e){
             Log.e(TAG,"MalformedURLException: " + e.getMessage());
         }catch (ProtocolException e){
