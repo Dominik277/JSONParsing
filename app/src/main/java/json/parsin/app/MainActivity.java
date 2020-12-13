@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                     //na desnoj strani smo napravili objekt u memoriji racunala tipa JSONObject, a
                     //na lijevoj strani smo samo deklarirali ime jsonObj preko kojeg cemo dohvacati
                     //taj objekt iz memorije racunala.
-                    //Objekt iz ove klase predstavlja kolekcuje key/value parova koji su neporedani
+                    //Objekt iz ove klase predstavlja kolekcije key/value parova koji su neporedani
                     //u ovom slucaju smo napravili objekt kojeg cemo referencirati preko jsonObj koji
                     //je konstruiran pomocu konstruktora koji kao argument ima varijablu jsonStr koja
                     //u sebi ima pohranjeno sve sto je vratila metoda makeServiceCall koja se nalazi
@@ -143,28 +143,61 @@ public class MainActivity extends AppCompatActivity {
                     //ovdje smo deklarirali for petlju koja se izvrsava sve dok je i manji od duzine elemenata u contacts
                     for (int i = 0; i<contacts.length(); i++){
 
-                        //desna strana -->
+                        //lijeva strana --> stvorili smo varijablu c tipa JSONObject u koju cemo pohraniti sve sto se
+                        //                  odvilo na desnoj strani
+                        //desna strana --> contacts nam predstavlja JSON objekt u kojem ce biti pohranjeni id,name,email...
+                        //                 metoda getJSONObject() nam vraca value onog elementa koji broj mu predamo kao argument
+                        //                 znaci imamo parametar i koji se mjenja tokom for petlje, i kako se on mjenja tako nam se
+                        //                 mijenja i element value kod objekta contacts
                         JSONObject c = contacts.getJSONObject(i);
+
+                        //lijeva strana --> stvorena varijabla tipa String u koju ce se pohranjivati sve sto se odvilo na desnoj strani
+                        //desna strana --> imamo varijablu contacts unutar kojeg su spremljene vrijednosti iz jsonObj objekta i mi pomocu
+                        //                 ove metode vracamo values iz objekta contacst na tocno određenom elementu koji određuje
+                        //                 argument u zagradi, a to je i
+                        //                 ovdje smo dakle deklarirali da objekt c ce imati sljedece atribute,id,name,email,address i gender
                         String id = c.getString("id");
                         String name = c.getString("name");
                         String email = c.getString("email");
                         String address = c.getString("address");
                         String gender = c.getString("gender");
 
+                        //ovo je isti slucaj kao i gore, u lijevu stranu spremamo sve sto se odvilo na desnoj strani
+                        //na desnoj strani smo stvorili novi JSON objekt nazvan phone
                         JSONObject phone = c.getJSONObject("phone");
+
+                        //ovdje smo deklarirali da ce phone objekt imati sljedece atribute:mobile,home,office
+                        //getString() metoda vraca vrijednost onog retka koji kao key ima ono sto je argument metode
                         String mobile = phone.getString("mobile");
                         String home = phone.getString("home");
                         String office = phone.getString("office");
 
+                        //na desnoj strani smo napravili objekt u memoriji racunala tipa HashMap,a na lijevoj strani
+                        //smo deklarirali da cemo taj objekt referencirati odnosno pozivati ga preko imena contact
+                        //HashMap --> HashMap je klasa ciji objekti pohranjuju podatke u obliku key/value parova
+                        //            kao parametre <> navodimo String,String, a s time smo odredili da ce i key i value
+                        //            biti tipa String
                         HashMap<String,String> contact = new HashMap<>();
 
+                        //nakon sto smo stvorili objekt contact tipa HashMap u prethodnoj liniji on je bio prazan do
+                        //sljedecih naredbi, kada pozovemo metodu put na objekt contacts onda sprema podatke unutar
+                        //contacts objekta gdje joj prvi parametar predstavlja key, a drugi parametar predstavlja value
                         contact.put("id",id);
                         contact.put("name",name);
                         contact.put("email",email);
                         contact.put("mobile",mobile);
 
+                        //na pocetku ove klase smo deklarirali varijablu contactList tipa ArrayList koja je kao parametre
+                        //uzela HashMap<String,String> sto znaci da ce ovaj ArrayList u sebe pohraniti HashMap koji sprema
+                        //String i kao key i kao value.Nakon sto smo to gore deklarirali i rekli da ce tako biti, taj objekt
+                        //contactList je ostao prazan sve do sada, kada smo mu preko metode add() koja kao parametar prima objekt
+                        //contact koji u sebi ima spremljene sve podatke u obliku key/value parova.
+                        //Znaci ukratko, u ArrayList smo dodali objekt contacts koji ima sve podatke spremljene u sebe tako da
+                        //taj ArrayList sada u sebi također ima sve te podatke
                         contactList.add(contact);
                     }
+
+
                 }catch (final JSONException e){
                         Log.e(TAG,"JSON parsing eror: " + e.getMessage());
                         runOnUiThread(new Runnable() {
