@@ -108,12 +108,42 @@ public class MainActivity extends AppCompatActivity {
             //onda se izvrsava dio koda koji se nalazi pod else viticastim zagradama
             if (jsonStr != null){
 
-                //
+                //ovom naredbom nam zapocinje try/catch blok gdje stavljamo neki kod koji zelimo
+                //izvrsiti unutar try bloka i ako taj kod nije dobar,odnosno baca neki exception
+                //onda taj exception hvatamo pomocu catch bloka unutuar kojeg smo definirali tocno
+                //sto ce se desiti ako dode do exception-a
                 try {
+
+                    //na desnoj strani smo napravili objekt u memoriji racunala tipa JSONObject, a
+                    //na lijevoj strani smo samo deklarirali ime jsonObj preko kojeg cemo dohvacati
+                    //taj objekt iz memorije racunala.
+                    //Objekt iz ove klase predstavlja kolekcuje key/value parova koji su neporedani
+                    //u ovom slucaju smo napravili objekt kojeg cemo referencirati preko jsonObj koji
+                    //je konstruiran pomocu konstruktora koji kao argument ima varijablu jsonStr koja
+                    //u sebi ima pohranjeno sve sto je vratila metoda makeServiceCall koja se nalazi
+                    //unutar HttpHandler klase
                     JSONObject jsonObj = new JSONObject(jsonStr);
+
+                    //desna strana -->zamislimo jsonObj kao bazu podataka unutar koje su podaci spremljeni
+                    //                kao key/value parovi te ih imamo vise komada.Ako npr zelimo dohvatiti
+                    //                podatak koji se nalazi na 6 mjestu u "bazi podataka" mozemo mu pristupiti
+                    //                ako navedemo njegov key.Npr ako spremamo imena kao key,a godine kao value
+                    //                onda npr key je Dominik, a value je 21, a ova getJSONArray metoda radi na
+                    //                taj nacin da kao argument joj navedemo key vrijednost, a ona nam kao rezultat
+                    //                vraca value vrijednost od tog key/value para.Znaci ukratko,stvorili smo objekt
+                    //                u memoriji tipa JSONObject imena jsonObj u kojem su podaci spremljeni kao
+                    //                key/value parovi, ako zelimo pristupiti određenoj vrijednost unutar tog objekta
+                    //                kao argument te metode koja je pozvana preko tog objekt navodimo key i on nam
+                    //                vraca value za taj pripadajuci key
+                    //lijeva strana -->na lijevoj strani smo samo napravili varijablu contacst tipa JSONArray u koju
+                    //                 spremamo sve ovo sto se odvilo na desnoj strani
                     JSONArray contacts = jsonObj.getJSONArray("contacts");
 
-                    for (int i = 0;i<contacts.length();i++){
+
+                    //ovdje smo deklarirali for petlju koja se izvrsava sve dok je i manji od duzine elemenata u contacts
+                    for (int i = 0; i<contacts.length(); i++){
+
+                        //desna strana -->
                         JSONObject c = contacts.getJSONObject(i);
                         String id = c.getString("id");
                         String name = c.getString("name");
