@@ -279,6 +279,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+            //ova metoda nam govori da ce prije nego sto se krene odvijati kod unutar doInBackground()
+            //metode pokazati Toast poruka na dnu ekrana sa porukom da se JSON podaci jos skidaju
             Toast.makeText(MainActivity.this,"JSON data is downloading"
                     ,Toast.LENGTH_LONG).show();
         }
@@ -291,14 +294,39 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+
+            //ListAdapter objekt mozemo zamisliti kao most između ListView-a i podataka koje zelimo
+            //prikazati u ListView-u.ListView je tu samo da prikazuje podatke, a ListAdapter sluzi
+            //kako bi mu dao podatke koje treba prikazati i rekao na koji nacin ce prikazati podatke
+            //SimpleAdapter() --> jednostavan adapter koji sluzi kako bi se mapirali staticni podaci
+            //                    za view-ove koji su definirani unutar XML datoteke
+            //                    sluzi nam za "customization" item-a koji su u list-i
+            //context -->prvi parametar nam govori da trebamo predati context, odnosno referencu trenutne klase
+            //contactList -->u drugom parametru, u nasem slucaju contactList, predajemo podatke koje zelimo da
+            //               budu prikazani u nekoj listi
+            //R.layout.list_item -->treci parametar je resource id, odnosno kao treci parametar navodimo
+            //                      layout datoteku koja je zasluzena za prikazivanje podatka,odnosno
+            //                      predstavlja jedan custom red u nasoj listi
+            //new String[]{"email","mobile"} -->ovaj paremetar je lista stringova,a svaki string element u ovom
+            //                                  array-u predstavlja ime kolone.To mozemo zamisliti na sljedeci nacin
+            //                                  posto ce u nasoj aplikaciji biti prikazan email i broj mobitela korisnika
+            //                                  onda u viticastim zagradama navodimo imena tih View-ova unutar nase custom
+            //                                  liste
+            //new int[]{R.id.email,R.id.mobile} -->ovaj parametar predstavlja int array koji sluzi za spremanje Id-ova od
+            //                                     view-ova, ti view-ovi su oni view-ovi predstavljaju kolone u prethodnom
+            //                                     parametru
             ListAdapter adapter = new SimpleAdapter(MainActivity.this,contactList,
                     R.layout.list_item, new String[]{"email","mobile"},
                     new int[]{R.id.email,R.id.mobile});
+
+            //imamo u activity_main ListView koji nam sluzi kako bi prikazali podatke na zaslonu
+            //u dijelu koda iznad smo definirali objekt tipa ListAdapter koji sluzi kako bi tom
+            //ListView-u poslao sve informacije koje su mu potrebne za prikazivanje podataka
+            //kako bi taj adapter spojili sa listView-om, tj. ListView-u poslali sve podatke potrebne
+            //to koristimo preko setAdapter() metode.setAdapter() metoda se poziva na objekt od ListView-a
+            //a kao parametar joj se predaje adapter objekt koji u sebi sadrzi sve podatke koji su ListView-u
+            //potrebni kako bi ih prikazao
             lv.setAdapter(adapter);
         }
-
-
-
-
     }
 }
