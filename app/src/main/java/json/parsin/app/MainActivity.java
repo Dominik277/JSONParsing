@@ -8,11 +8,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -74,13 +72,43 @@ public class MainActivity extends AppCompatActivity {
         //ne bi smjele dodirivati nikakve activitie i fragmente od main thread-a.
         @Override
         protected Void doInBackground(Void... arg0) {
+
+            //na desnoj strani smo napravili objekt u memoriji racunala tipa HttpHandler
+            //a na lijevoj strani samo referencu preko koje cemo dokucivati taj objekt
+            //preko ovog objekta mozemo pristupati svim metodama koje se nalaze unutar
+            //HttpHandler klase
+            //HttpHandler --> je klasa koju smo deklarirali u ovom projektu te smo sada
+            //                napravili objekt te klase
             HttpHandler sh = new HttpHandler();
+
+            //ovdje smo na lijevoj strani napravili varijablu url koja je tipa String,a
+            //u nju smo pohranili ovo sto se nalazi na desnoj strani unutar navodnika
             String url = "http://api.androidhive.info/contacts/";
+
+            //jsonStr je varijabla tipa string u koju se pohranjuje rezultat koji vraca
+            //metoda makeServiceCall(url) koja je unutar HttpHandler klase koju smo pozvali
+            //preko objekta od te klase
             String jsonStr = sh.makeServiceCall(url);
 
+            //ovo je metoda koja sluzi za prikazivanje raznoraznih poruka unutar Logcat-a
+            //TAG --> prvi parametar u ovoj metodi uvijek mora biti tipa string,ovaj prvi
+            //        parametar najcesce oznacava u kojem activity-u se dogodio eror te sluzi
+            //        za određivanja razloga zbog kojeg je doslo do te error poruke
+            //        ovaj parametar moze biti null
+            //Response from url: + jsonStr --> ovo je poruka koju nam log metoda ispisuje u
+            //                                 Logcat-u,ovaj parametar ne smije biti null
+            //e --> e nam predstavlja EROR message
+            //jsonStr -->jsonStr je varijabla tipa string u koju se pohranjuje ono sto vraca
+            //           metoda makeServiceCall()
             Log.e(TAG,"Response from url: " + jsonStr);
 
+            //ovdje smo napravili if naredbu gdje u zagradi ispitujemo ako je jsonStr razlicit
+            //od nule,odnosno ako je u jsonStr spremljena neka vrijednos, ako nije prazan, onda
+            //se izvrsavaju sve ove narebe unutar viticastih zagrada, ako ovo u zagradi nije istina
+            //onda se izvrsava dio koda koji se nalazi pod else viticastim zagradama
             if (jsonStr != null){
+
+                //
                 try {
                     JSONObject jsonObj = new JSONObject(jsonStr);
                     JSONArray contacts = jsonObj.getJSONArray("contacts");
