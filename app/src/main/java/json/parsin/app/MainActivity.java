@@ -234,11 +234,34 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                 }
+
+                //sve ovo iznad je bilo u bloku koji bi se izvrsavao kada jsonStr nije bio jedan null, u slucaju kada
+                //bi jsonStr imao vrijednost null onda bi se kod unutar else bloka izvodio
             }else {
+
+                //TAG --> kao prvi parametar u metodi Log() se navodi klasa activity-a u kojem na napisan ta Log() metoda
+                //        kada pravimo aplikaciju mozda postoji vise klasa za svaki activity, kako bi odredili koja podaci
+                //        se trebaju prikazati u Logcatu onda kao prvi parametar navodimo ime klase u kojoj se taj
+                //        activity nalazi, znaci prvi parametar predstavlja ime klase
                 Log.e(TAG,"Couldn't get JSON from server.");
+
+                //runOnUiThred() --> UI thread kreira UI i kako bi se izbjegli problemi, jedino UI thread moze komunicirati s UI-om
+                //                   odnosno jedino UI thread moze "updejtati" UI
+                //                   pomocu ove metode onda mozemo odraditi neki teski zadatak u pozadini, a također imati i mogucnost
+                //                   "updejtanja" UI thread-a, sto ne bi bilo moguce bez ove metode
+                //Runnable() je interface koji ima jednu jedinu metodu koja se mora pozvati jer je to interface, a ta metoda
+                //je run(),Runnable je interfejs koji bi trebali implementirati svi objekti koji se nalaze u nekom drugom thread-u osim
+                //u main thread-u
                 runOnUiThread(new Runnable() {
+
+                    //run() --> kada objekt koji implementira interfejs Runnable() se koristi kako bi konstruirao thread i onda kada se
+                    //          "pokrece" taj thread onda se poziva run() metoda na tom objektu te se obavlja sav kod koji je naveden
+                    //
                     @Override
                     public void run() {
+
+                        //ovdje se samo prikazuje Toast poruka na dnu ekrana da nismo mogli dovuci JSON sa servera te da pogledamo
+                        //u Logcat koji problem je nastao
                         Toast.makeText(getApplicationContext(),
                                 "Couldn't get JSON from server.Check LogCat for possible errors!",
                                 Toast.LENGTH_LONG).show();
