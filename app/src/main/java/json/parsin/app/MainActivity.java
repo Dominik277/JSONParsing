@@ -197,12 +197,37 @@ public class MainActivity extends AppCompatActivity {
                         contactList.add(contact);
                     }
 
-
+                    //nakon sto smo naveli sav kod koji se treba izvrsiti unutar try bloka sada nam ostaje navesti sta ce se desiti
+                    //u slucaju ako taj kod ne bude valjan,odnosno ako kod u try bloku bude bacao exception onda nas compiler odma
+                    //prebacuje u catch blok te se izvodi kod unutar catch bloka,a ako je kod unutar try bloka dobar onda se preskace
+                    //catch blok i nastavlja se dalje sa programom
+                    //JSONException --> on baca gresku ako je doslo do problema sa JSON API
                 }catch (final JSONException e){
+
+                        //Log metoda nam omogucava da prikazemo neku određenu poruku unutar Logcat-a
+                        //e --> salje ERROR poruku
+                        //TAG --> to je konstanta tipa String u kojoj je sadrzano ime od "underlaying class"
+                        //e.getMessage() --> ova metoda vraca ime od exceptio-a koji je catch blok uhvatio
+                        //                   ime koje vrati getMessage metoda je tocno definirano compiler-om
                         Log.e(TAG,"JSON parsing eror: " + e.getMessage());
+
+                        //runOnUiThred() --> UI thread kreira UI i kako bi se izbjegli problemi jedino UI thread moze komunicirati s UI-om
+                        //                   odnosno jedino UI thread moze "updejtati" UI
+                        //                   pomocu ove metode onda mozemo odraditi neki teski zadatak u pozadini, a također imati i mogucnost
+                        //                   "updejtanja" UI thread-a, sto ne bi bilo moguce bez ove metode
+                        //Runnable() je interface koji ima jednu jedinu metodu koja se mora pozvati jer je to interface, a ta metoda
+                        //je run(),Runnable je interfejs koji bi trebali implementirati svi objekti koji se nalaze u nekom drugom thread-u osim
+                        //u main thread-u
                         runOnUiThread(new Runnable() {
+
+                            //run() --> kada objekt koji implementira interfejs Runnable() se koristi kako bi konstruirao thread i onda kada se
+                            //          "pokrece" taj thread onda se poziva run() metoda na tom objektu te se obavlja sav kod koji je naveden
+                            //          unutar run() metode
                             @Override
                             public void run() {
+                                //Toast je poruka koja se prikaze na dnu zaslona
+                                //e.getMessage() --> ova metoda vraca ime exception-a koji je catch blok uhvatio,
+                                //                   ime koje vrati getMessage metoda je tocno definirano compiler-om
                                 Toast.makeText(getApplicationContext(),
                                         "JSON parsing eror: " + e.getMessage(),
                                         Toast.LENGTH_LONG).show();
