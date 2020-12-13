@@ -65,7 +65,21 @@ public class HttpHandler {
             //in --> je parametar metode convertStreamToString i to je varijabla tipa InputStream
             response = convertStreamToString(in);
 
-            //
+            //ovdje definiramo sto ce se desili ako nam ne prođe kod unutar try bloka, postoji vise mogucih pogresaka
+            //koje se mogu desiti pa smo za svaku od njih napravili catch blok te ce svaki ispisivati zasebnu poruku
+            //unutar Logcat-a
+            //TAG --> TAG nam je konstanta u koju smo spremili trenutnu klasu u kojoj se nalazimo,TAG predajemo kao
+            //        prvi parametar unutar Log() metode
+            //MalformedURLException --> ovaj exception se događa ako link nije pravilno oblikovan, odnosno ako se ne
+            //                          moze prepoznati ili ako se varijabla tipa string u koji je link spremljen ne
+            //                          moze rasclaniti
+            //ProtocolException --> jedan tip ovakvog exceptiona moze biti TCP Error koji sluzi za slaganje pristiglih
+            //                      podataka.Kada primamo podatke sa neke lokacije s interneta oni stizu u mnogo blokova
+            //                      a TCP protokol sluzi za slaganje tih blokova u jednu jedinstvenu cjelinu, znaci ako
+            //                      dode do TCP error-a onda aplikacija baca ProtocolException
+            //IOException --> ovaj exception nam signalizira da je doslo do neke pogreske u primanju ili slanju podataka
+            //Exception --> ovo je opcenita klasa koja hvata sve vrste exception-a
+            //getMessage() --> ova metoda vraca string sa detaljnom informacijom u vezi exception-a koji se desio
         }catch (MalformedURLException e){
             Log.e(TAG,"MalformedURLException: " + e.getMessage());
         }catch (ProtocolException e){
