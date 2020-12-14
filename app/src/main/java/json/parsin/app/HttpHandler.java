@@ -121,14 +121,52 @@ public class HttpHandler {
         //je dobar, odnosno da ne baca exception, a u slucaju da taj kod unutar try bloka nije dobar
         //onda se poziva i izvrsava onaj kod koji je unutar catch bloka
         try {
+
+            //line --> line nam je samo ime varijable koje je tipa String
+            //reader --> reader je referenca na objekt u memoriji tipa BufferedReader
+            //           reader sluzi kako bi citao podatke koji dolaze unutar streama
+            //readLine() --> ova metoda sluzi za citanje linije teksta
+            //               ova metoda vraca String koji sadrzi teks jedne cijele linije
+            //unutar zagrada se događa sljedece --> u string varijablu se sprema string vrijednost
+            //                                      koja je procitana u Stream-u, znaci tekst koji je
+            //                                      procitan unutar Stream-a ako je razlicit on null,
+            //                                      odnosno ako Stream nije prazan onda se odvija sljedeci
+            //                                      dio koda unutar viticastih zagrada
             while ((line = reader.readLine())!= null){
+
+                //sb --> referenca na objekt u memoriji tipa StringBuilder
+                //       sb je objekt koji ima mogucnost stvaranja promenjivih stringova
+                //append na engleskom znaci dodati sto onda znaci da sve ono prethodno sto smo spremili unutar
+                //string varijable line, a to jest string linije koje su se nalazite u Stram-u, na kraju
+                //toga stringa dodajemo znak za novi red
                 sb.append(line).append("\n");
             }
+            //ovaj dio koda u catch bloku se odvija ako dio koda unutar try bloka nije dobar, odnosno
+            //ako baca nekakav exception
+            //IOException --> ovaj exception nam signalizira da je doslo do neke pogreske u primanju ili slanju podataka
+            //printStackTrace() --> ova metoda nam pomaze kako bi lakse nasli uzrok problema i na kojoj liniji je doslo do
+            //                      tog problema, također nam prikazuje i koja metoda nam stvara problem
+            //                      radi na nacin da se kako se izvodi program metoda po metoda ubacuje u stack i prva metoda
+            //                      koja nije valjana nam se ispisuje pomocu printStackTrace() metode
         }catch (IOException e){
             e.printStackTrace();
         }finally {
+
+            //finally --> dio koda unutar finally kljucne rijeci se izvodi bez obzira dali je doslo
+            //            do exceptiona ili nije
+            //isprobavamo dio koda unutar try bloka
+            //close() --> ova metoda zatvara "dotok" inputStream-a i pusta sve podatke koji su vezani
+            //            uz taj Stream
             try {
                 is.close();
+
+                //dio koda unutar catch bloka se odvija samo u slucaju ako nesto nije dobro unutar
+                //try bloka, ondnoso ako try blok baca nekakav exception onda catch blok ga hvata
+                //IOExcetpion --> ovaj exception nam signalizira da je doslo do neke pogreske u primanju ili slanju podataka
+                //printStackTrace() --> ova metoda nam pomaze kako bi lakse nasli uzrok problema i na kojoj liniji je doslo do
+                //                      tog problema, također nam prikazuje i koja metoda nam stvara problem
+                //                      radi na nacin da se kako se izvodi program metoda po metoda ubacuje u stack i prva metoda
+                //                      koja nije valjana nam se ispisuje pomocu printStackTrace() metode
             }catch (IOException e){
                 e.printStackTrace();
             }
